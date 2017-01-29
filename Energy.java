@@ -1,0 +1,11 @@
+
+
+class Energy {
+
+
+  Energy() {
+
+  }
+
+  
+}
