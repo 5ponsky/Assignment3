@@ -1,4 +1,4 @@
-import javax.swing.JPanel; 
+import javax.swing.JPanel;
 import java.awt.Graphics;
 import java.awt.Image;
 import javax.imageio.ImageIO;
@@ -20,22 +20,20 @@ class View extends JPanel
 		model = m;
 		controller = c;
 		controller.setView(this);
+		/*
 		try {
-			this.bird_image_up = ImageIO.read(new File("bird1.png"));
-			this.bird_image_down = ImageIO.read(new File("bird2.png"));
-			this.tube_up_image = ImageIO.read(new File("tube_up.png"));
-			this.tube_down_image = ImageIO.read(new File("tube_down.png"));
-			this.cloud_image = ImageIO.read(new File("cloud.png"));
 		} catch(Exception e) {
 			e.printStackTrace(System.err);
 			System.exit(1);
 		}
-
+		*/
 	}
 
 	public void paintComponent(Graphics g) {
 		g.setColor(new Color(128, 255, 255));
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
+		g.fillRect(0, 452, 103, 48);
+		g.fillRect(3, 455, model.bird.energy, 45);
 		g.drawImage(this.cloud_image, model.cloud.x_pos, model.cloud.y_pos, null);
 
 		if(model.bird.flapCounter <= 0) // Draw bird wings up or down

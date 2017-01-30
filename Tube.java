@@ -1,17 +1,24 @@
 import java.util.Random;
-import java.awt.Image; 
+import java.awt.Image;
 
 class Tube {
   final int TUBEBOUND = 115;
   int x_pos, y_pos;
   boolean tubeUpwards;
   Random random;
-  static Image tube_down_image, tube_up_image;
+  static Image tube_down_image = null;
+  static Image tube_up_image = null;
 
   Tube(Random r) {
     random = r;
-    tube_down_image = null;
-    tube_up_image = null;
+    
+    try {
+      this.tube_up_image = ImageIO.read(new File("tube_up.png"));
+      this.tube_down_image = ImageIO.read(new File("tube_down.png"));
+    } catch(Exception e) {
+      e.printStackTrace(System.err);
+      System.exit(1);
+    }
   }
 
   public void update() {

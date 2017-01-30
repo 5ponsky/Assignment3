@@ -4,14 +4,21 @@ class Bird {
   boolean flapped;
   double gravity, recharge;
   int x_pos, y_pos, flapCounter, energy;
-  static Image bird_image_up, bird_image_down;
+  static Image bird_image_up = null;
+  static Image bird_image_down = null;
 
   Bird() {
     x_pos = 10;
     y_pos = 250;
-    energy = 10;
-    bird_image_up = null;
-    bird_image_down = null;
+    energy = 100;
+    
+    try {
+      this.bird_image_up = ImageIO.read(new File("bird1.png"));
+      this.bird_image_down = ImageIO.read(new File("bird2.png"));
+    } catch(Exception e) {
+      e.printStackTrace(System.err);
+      System.exit(1);
+    }
   }
 
   public void flap() {
