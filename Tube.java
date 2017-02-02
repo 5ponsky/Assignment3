@@ -1,5 +1,9 @@
 import java.util.Random;
 import java.awt.Image;
+import javax.imageio.ImageIO;
+import java.io.IOException;
+import java.awt.Graphics;
+import java.io.File;
 
 class Tube {
   final int TUBEBOUND = 115;
@@ -11,7 +15,7 @@ class Tube {
 
   Tube(Random r) {
     random = r;
-    
+
     try {
       this.tube_up_image = ImageIO.read(new File("tube_up.png"));
       this.tube_down_image = ImageIO.read(new File("tube_down.png"));

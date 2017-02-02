@@ -1,5 +1,9 @@
 import java.util.Random;
 import java.awt.Image;
+import javax.imageio.ImageIO;
+import java.io.IOException;
+import java.awt.Graphics;
+import java.io.File;
 
 class Cloud {
   int x_pos, y_pos;

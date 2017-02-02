@@ -3,23 +3,28 @@ import java.util.LinkedList;
 import java.util.Iterator;
 
 class Model {
+  boolean game_lost, hand_ending, fall_ending, collision_ending;
   int tube_y;
   Cloud cloud;
   Bird bird;
   Tube tube;
   Hand hand;
   Random random;
-  LinkedList<Tube> tube_list;
-  Iterator<Tube> t;
+  LinkedList<Tube> tubes;
+  Iterator<Tube> i;
 
   Model() {
+    game_lost = false;
+    hand_ending = false;
+    fall_ending = false;
+    collision_ending = false;
+
     bird = new Bird();
     random = new Random();
     tube = new Tube(random);
-    hand = new Hand();
+    hand = new Hand(bird);
     cloud = new Cloud(random);
-    tube_list = new LinkedList<Tube>(); // IDK if this is right...
-    t = new Iterator<Tube>();
+    tubes = new LinkedList<Tube>();
   }
 
   private boolean collisionDetected() {
@@ -39,12 +44,32 @@ class Model {
     return true;
   }
 
+/*
+  static boolean collisionDetected(
+    int a_x, int a_y, int a_w, int a_h, int b_x, int b_y, int b_w, int b_h) {
+
+    if(a_x + a_w < b_x) // right -> left collision
+      return false;
+    if(a_x > b_x + b_w) // left -> right collision
+      return false;
+    if(a_y + a_h < b_y) // bottom -> top collision
+      return false;
+    if(a_y > b_y + b_h) // top -> bottom collision
+      return false;
+
+    System.out.println("Ouch!");
+    return true;
+  }
+*/
+
   private boolean birdCrashed() {
     if(bird.y_pos > 500) {
       System.out.println("AAAAAAAAHHH!");
       bird.y_pos = 250;
       bird.gravity = -1.5;
+      return true;
     }
+    return false;
   }
 
   private boolean noEnergy() {
@@ -53,35 +78,50 @@ class Model {
     return false;
   }
 
+  static boolean offScreen() {
+    return true;
+  }
+
   public void update() {
-    bird.update();
-    for(t = tube_list; t.hasNext(); ) { // Maybe this works?
-      t.update();
-    }
-    // Use an Iterator class to iterate over all tubes in a collection,
-    // and call tube.update() on each of them to draw them.
-    //
-    // Add a new tube to the collection every n frames (2-3 tubes visible at all times)
-    //
-    // Once a tube runs past the screen, let the garbage collect it and make a new Once
-    // (Have tube.update return a boolean value to model.update indicating drop/keep)
-    tube.update();
-    hand.update();
-    cloud.update();
+    if(!game_lost) {
+      bird.update();
+      hand.update();
+      cloud.update();
+      tube.update();
 
-    if(collisionDetected())
-      System.exit(0);
-    if(birdCrashed())
-      System.exit(0);
-    if(noEnergy()) {
-      System.exit(0);
-      energy
-    }
+      Iterator<Tube> i = tubes.iterator();
+      while(i.hasNext()) {
+      Tube t = i.next();
+      if(offScreen())
+        i.remove();
+      }
 
+      if(collisionDetected()) {
+        game_lost = true;
+        collision_ending = true;
+      } else if(bird.energy < 0) {
+        game_lost = true;
+        hand_ending = true;
+      } else if(bird.y_pos > 500) {
+        game_lost = true;
+        fall_ending = true;
+      }
+  } else {
+    if(hand_ending) {
+
+    } else if(collision_ending) {
+
+    } else {
+      System.out.println("Game Over!");
+    }
   }
 
   public void onClick() {
-    bird.flap();
+      bird.flap();
+  }
+
+  void end_game() {
+
   }
 
 }
