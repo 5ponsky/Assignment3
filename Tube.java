@@ -16,6 +16,7 @@ class Tube {
   Tube(Random r) {
     random = r;
 
+    // Only load the sprites if they exist and an instance is created
     try {
       this.tube_up_image = ImageIO.read(new File("tube_up.png"));
       this.tube_down_image = ImageIO.read(new File("tube_down.png"));
@@ -25,19 +26,21 @@ class Tube {
     }
   }
 
-  public void update() {
+  public boolean update() {
     x_pos = x_pos - 6;
 
     if(x_pos < -56) {
-      x_pos = 556;
       tubeUpwards = random.nextBoolean();
 
       if(tubeUpwards)
         y_pos = random.nextInt(TUBEBOUND) + 250;
       else
         y_pos = random.nextInt(TUBEBOUND) - 250;
+
+      return true;
     }
 
+    return false;
   }
 
 }

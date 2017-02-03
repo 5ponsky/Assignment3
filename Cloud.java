@@ -14,6 +14,7 @@ class Cloud {
     random = r;
     x_pos = 575;
 
+    // Only load the sprites if they exist and an instance is created
     try {
       this.cloud_image = ImageIO.read(new File("cloud.png"));
     } catch(Exception e) {

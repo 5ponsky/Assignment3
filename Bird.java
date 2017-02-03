@@ -16,6 +16,7 @@ class Bird {
     y_pos = 250;
     energy = 100;
 
+    // Only load the sprites if they exist and an instance is created
     try {
       this.bird_image_up = ImageIO.read(new File("bird1.png"));
       this.bird_image_down = ImageIO.read(new File("bird2.png"));
@@ -37,6 +38,7 @@ class Bird {
     y_pos = y_pos + (int) gravity;
     --flapCounter;
 
+    // If the bird runs out of energy, it cannot recharge any more
     if(energy > 0) {
       energy += 5;
       if(energy > 100)
@@ -45,8 +47,13 @@ class Bird {
 
   }
 
-  public void animateCollision() {
+  public void animateCollision(boolean pulse) {
 
+    // Knock the bird backwards and upwards, indicating a "bump"
+    if(pulse)
+      gravity = gravity - 4.5;
+    y_pos = y_pos + (int) gravity;
+    x_pos = x_pos - 2;
   }
 
 }

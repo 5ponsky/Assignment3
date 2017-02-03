@@ -14,6 +14,7 @@ class Hand {
   Hand(Bird b) {
     bird = b;
 
+    // Only load the sprites if they exist and an instance is created
     try {
       this.open_hand = ImageIO.read(new File("hand1.png"));
       this.closed_hand = ImageIO.read(new File("hand2.png"));

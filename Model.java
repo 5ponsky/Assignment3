@@ -3,7 +3,8 @@ import java.util.LinkedList;
 import java.util.Iterator;
 
 class Model {
-  boolean game_lost, hand_ending, fall_ending, collision_ending;
+  boolean game_lost, no_energy, fall_ending, collision_ending;
+  boolean collisionKnockback = true;
   int tube_y;
   Cloud cloud;
   Bird bird;
@@ -15,7 +16,7 @@ class Model {
 
   Model() {
     game_lost = false;
-    hand_ending = false;
+    no_energy = false;
     fall_ending = false;
     collision_ending = false;
 
@@ -90,6 +91,7 @@ class Model {
       cloud.update();
       tube.update();
 
+      // Update our list of tubes
       Iterator<Tube> i = tubes.iterator();
       while(i.hasNext()) {
       Tube t = i.next();
@@ -97,29 +99,34 @@ class Model {
         i.remove();
       }
 
+      // Conditions to trigger a lost game
       if(collisionDetected()) {
         game_lost = true;
         collision_ending = true;
       } else if(bird.energy < 0) {
         game_lost = true;
-        hand_ending = true;
+        no_energy = true;
       } else if(bird.y_pos > 500) {
         game_lost = true;
         fall_ending = true;
       }
   } else {
+    bird.update();
 
     // The game is lost!
-    if(hand_ending) {
-      //Do the hand ending animation
-    } else if(collision_ending) {
-      // Make it bounce and fall down
+    if(collision_ending) {
+      bird.animateCollision(collisionKnockback);
+      collisionKnockback = false;
+    } else if(no_energy) {
+      hand.update();
     } else {
       System.out.println("Game Over!");
+      System.exit(0);
     }
   }
 
   public void onClick() {
+    if(!game_lost)
       bird.flap();
   }
 
