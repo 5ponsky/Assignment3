@@ -45,6 +45,7 @@ class Model {
   }
 
 /*
+  // Generic Collision Detection
   static boolean collisionDetected(
     int a_x, int a_y, int a_w, int a_h, int b_x, int b_y, int b_w, int b_h) {
 
@@ -107,10 +108,12 @@ class Model {
         fall_ending = true;
       }
   } else {
+
+    // The game is lost!
     if(hand_ending) {
-
+      //Do the hand ending animation
     } else if(collision_ending) {
-
+      // Make it bounce and fall down
     } else {
       System.out.println("Game Over!");
     }
