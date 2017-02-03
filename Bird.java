@@ -47,10 +47,10 @@ class Bird {
 
   }
 
-  public void animateCollision(boolean pulse) {
+  public void animateCollision(boolean knockback) {
 
     // Knock the bird backwards and upwards, indicating a "bump"
-    if(pulse)
+    if(knockback)
       gravity = gravity - 4.5;
     y_pos = y_pos + (int) gravity;
     x_pos = x_pos - 2;

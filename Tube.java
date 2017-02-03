@@ -15,6 +15,13 @@ class Tube {
 
   Tube(Random r) {
     random = r;
+    x_pos = 555;
+    tubeUpwards = random.nextBoolean();
+
+    if(tubeUpwards)
+      y_pos = random.nextInt(TUBEBOUND) + 250;
+    else
+      y_pos = random.nextInt(TUBEBOUND) - 250;
 
     // Only load the sprites if they exist and an instance is created
     try {
@@ -28,18 +35,8 @@ class Tube {
 
   public boolean update() {
     x_pos = x_pos - 6;
-
-    if(x_pos < -56) {
-      tubeUpwards = random.nextBoolean();
-
-      if(tubeUpwards)
-        y_pos = random.nextInt(TUBEBOUND) + 250;
-      else
-        y_pos = random.nextInt(TUBEBOUND) - 250;
-
+    if(x_pos < -56)
       return true;
-    }
-
     return false;
   }
 

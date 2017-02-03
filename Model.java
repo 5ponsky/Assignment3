@@ -5,7 +5,7 @@ import java.util.Iterator;
 class Model {
   boolean game_lost, no_energy, fall_ending, collision_ending;
   boolean collisionKnockback = true;
-  int tube_y;
+  int addTubeCount;
   Cloud cloud;
   Bird bird;
   Tube tube;
@@ -19,6 +19,7 @@ class Model {
     no_energy = false;
     fall_ending = false;
     collision_ending = false;
+    addTubeCount = 0;
 
     bird = new Bird();
     random = new Random();
@@ -64,6 +65,7 @@ class Model {
   }
 */
 
+/*
   private boolean birdCrashed() {
     if(bird.y_pos > 500) {
       System.out.println("AAAAAAAAHHH!");
@@ -79,6 +81,7 @@ class Model {
       return true;
     return false;
   }
+*/
 
   static boolean offScreen() {
     return true;
@@ -89,14 +92,20 @@ class Model {
       bird.update();
       hand.update();
       cloud.update();
-      tube.update();
+      //tube.update();
 
       // Update our list of tubes
       Iterator<Tube> i = tubes.iterator();
       while(i.hasNext()) {
-      Tube t = i.next();
-      if(offScreen())
-        i.remove();
+        Tube t = i.next();
+        t.update();
+        if(offScreen())
+          i.remove();
+      }
+
+      if(addTubeCount <= 0 && tubes.size() < 3) {
+        Tube t = new Tube(random);
+        tubes.addLast(t);
       }
 
       // Conditions to trigger a lost game
