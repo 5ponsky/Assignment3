@@ -16,21 +16,29 @@ class Tube {
   Tube(Random r) {
     random = r;
     x_pos = 555;
+
+    // Only load the sprites if they exist and an instance is created
+    try {
+			this.tube_up_image = ImageIO.read(new File("tube_up.png"));
+			this.tube_down_image = ImageIO.read(new File("tube_down.png"));
+		} catch(Exception e) {
+			e.printStackTrace(System.err);
+			System.exit(1);
+		}
+
     tubeUpwards = random.nextBoolean();
 
     if(tubeUpwards)
       y_pos = random.nextInt(TUBEBOUND) + 250;
     else
       y_pos = random.nextInt(TUBEBOUND) - 250;
+  }
 
-    // Only load the sprites if they exist and an instance is created
-    try {
-      this.tube_up_image = ImageIO.read(new File("tube_up.png"));
-      this.tube_down_image = ImageIO.read(new File("tube_down.png"));
-    } catch(Exception e) {
-      e.printStackTrace(System.err);
-      System.exit(1);
-    }
+  public void drawTube(Graphics g) {
+    if(this.tubeUpwards)
+			g.drawImage(this.tube_up_image, this.x_pos, this.y_pos, null);
+		else
+			g.drawImage(this.tube_down_image, this.x_pos, this.y_pos, null);
   }
 
   public boolean update() {

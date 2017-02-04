@@ -27,10 +27,13 @@ class Bird {
   }
 
   public void flap() {
-    gravity = gravity - 2.5;
-    y_pos = y_pos - (int) gravity;
-    energy = energy - 53;
-    flapCounter = 3;
+    if(energy > 0) {
+      gravity = gravity - 2.5;
+      y_pos = y_pos - (int) gravity;
+      flapCounter = 3;
+      energy = energy - 35;
+    } else
+      energy = 0;
   }
 
   public void update() {
@@ -50,6 +53,7 @@ class Bird {
   public void animateCollision(boolean knockback) {
 
     // Knock the bird backwards and upwards, indicating a "bump"
+    energy = 0;
     if(knockback)
       gravity = gravity - 4.5;
     y_pos = y_pos + (int) gravity;

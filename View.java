@@ -7,6 +7,8 @@ import java.awt.Graphics;
 import java.io.File;
 import javax.swing.JButton;
 import java.awt.Color;
+import java.util.LinkedList;
+import java.util.Iterator;
 
 class View extends JPanel
 {
@@ -26,6 +28,9 @@ class View extends JPanel
 		g.setColor(new Color(128, 255, 255));
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
 
+		// Draw a cloud_image
+		g.drawImage(model.cloud.cloud_image, model.cloud.x_pos, model.cloud.y_pos, null);
+
 		// Draw bird wings up or down
 		if(model.bird.flapCounter <= 0)
 			g.drawImage(model.bird.bird_image_up, model.bird.x_pos, model.bird.y_pos, null);
@@ -33,13 +38,20 @@ class View extends JPanel
 			g.drawImage(model.bird.bird_image_down, model.bird.x_pos, model.bird.y_pos, null);
 
 		// Draw either up or down sprite
-		if(model.tube.tubeUpwards)
-			g.drawImage(model.tube.tube_up_image, model.tube.x_pos, model.tube.y_pos, null);
-		else
-			g.drawImage(model.tube.tube_down_image, model.tube.x_pos, model.tube.y_pos, null);
+		Iterator<Tube> i = model.tubes.iterator();
+		while(i.hasNext()) {
+			//model.i.next().drawTube(g);
+			Tube t = i.next();
+			t.drawTube(g);
+		}
 
-		// Draw a cloud_image
-		g.drawImage(model.cloud.cloud_image, model.cloud.x_pos, model.cloud.y_pos, null);
+
+
+		// Draw the skeleton hand
+		if(model.hand.gotcha)
+			g.drawImage(model.hand.closed_hand, model.hand.x_pos, model.hand.y_pos, null);
+		else
+			g.drawImage(model.hand.open_hand, model.hand.x_pos, model.hand.y_pos, null);
 
 		// Draw energy bar
 		g.setColor(new Color(0, 255, 0));
