@@ -5,7 +5,7 @@ import java.util.Iterator;
 class Model {
   boolean game_lost, no_energy, fall_ending, collision_ending;
   boolean collisionKnockback = true;
-  int tubeCounter;
+  int tubeCounter, damageDelay;
   Cloud cloud;
   Tube tube;
   Bird bird;
@@ -19,6 +19,7 @@ class Model {
     fall_ending = false;
     collision_ending = false;
     tubeCounter = 0;
+    damageDelay = 0;
 
     bird = new Bird();
     random = new Random();
@@ -32,23 +33,22 @@ class Model {
 
     // Manage Game State
     if(!game_lost) {
-      bird.update();
-      cloud.update();
 
       // Update our list of tubes
       Iterator<Tube> i = tubes.iterator();
       while(i.hasNext()) {
         tube = i.next();
-        if(tubeCollision(bird, tube)) {
-          game_lost = true;
-          collision_ending = true;
+        if(tubeCollision(bird, tube) && damageDelay >= 25) {
+          bird.energy = bird.energy - 71;
+          damageDelay = 0;
         }
-        //tubeCollision(tube, bird);
+
         if(tube.update()) {
           i.remove();
           System.out.println("GONE");
         }
       }
+      ++damageDelay;
 
       // Decide if we can add a new tube into our list
       if(tubeCounter >= 45 && tubes.size() < 3) {
@@ -60,23 +60,24 @@ class Model {
       ++tubeCounter;
 
       // Conditions to trigger a lost game
-      if(tubeCollision(bird, tube)) {
-        game_lost = true;
-        collision_ending = true;
-      } else if(bird.energy < 0) {
+      if(bird.energy < 0) {
         game_lost = true;
         no_energy = true;
       } else if(bird.y_pos > 500) {
         game_lost = true;
         fall_ending = true;
       }
+
+      // Update everything else
+      bird.update();
+      cloud.update();
+
+
     } else {
       bird.update();
+
       // The game is lost!
-      if(collision_ending) {
-        bird.animateCollision(collisionKnockback);
-        collisionKnockback = false;
-      } else if(no_energy) {
+      if(no_energy) {
         hand.update();
       } else {
         System.out.println("Game Over!");

@@ -34,7 +34,7 @@ class Hand {
 
   public void grab() {
 
-    x_pos = bird.x_pos;
+    x_pos = bird.x_pos + 5;
     //if(y_pos < bird.y_pos + 10 && y_pos > bird.y_pos - 10) {
     if(y_pos > bird.y_pos - 15 && y_pos < bird.y_pos + 15) {
       gotcha = true;

@@ -31,25 +31,32 @@ class Bird {
       gravity = gravity - 2.5;
       y_pos = y_pos - (int) gravity;
       flapCounter = 3;
-      energy = energy - 35;
+      //energy = energy - 35;
     } else
       energy = 0;
   }
 
   public void update() {
-    gravity = gravity + 0.3;
-    y_pos = y_pos + (int) gravity;
-    --flapCounter;
 
-    // If the bird runs out of energy, it cannot recharge any more
+    // Allow the bird to recharge energy so long as it has more than 0,
+    // and cap the energy at 100
     if(energy > 0) {
-      energy += 5;
+
+      // Simulate gravity and bird flapping
+      gravity = gravity + 0.3;
+      y_pos = y_pos + (int) gravity;
+      --flapCounter;
+
+
+      energy += 1;
       if(energy > 100)
         energy = 100;
-    }
+    } else if (energy < 0)
+      energy = 0; // Cosmetic effect to keep the bar from drawing backwards
 
   }
 
+/*
   public void animateCollision(boolean knockback) {
 
     // Knock the bird backwards and upwards, indicating a "bump"
@@ -59,5 +66,6 @@ class Bird {
     y_pos = y_pos + (int) gravity;
     x_pos = x_pos - 2;
   }
+*/
 
 }
